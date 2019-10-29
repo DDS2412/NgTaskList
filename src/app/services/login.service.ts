@@ -8,12 +8,10 @@ declare const login: any;
 })
 export class LoginService {
 
-  private appKey = 'c3f9b837515705c8e7e4e5ad95af9c32';
-
   constructor(private auth: AuthService) {}
 
   public login() {
-    login(this.appKey);
+    login(this.auth.getApiKey());
   }
 
   public logout() {

@@ -2,9 +2,11 @@ import { Injectable } from '@angular/core';
 
 @Injectable()
 export class AuthService {
+  private API_KEY = "c3f9b837515705c8e7e4e5ad95af9c32";
+
   constructor() {}
 
-  public setUsersKey(token: string) {
+  public setUsersToken(token: string) {
     localStorage.setItem('trello_token', token);
   }
 
@@ -12,8 +14,12 @@ export class AuthService {
     localStorage.removeItem('trello_token');
   }
 
-  public getUsersKey() {
+  public getUsersToken() {
     return localStorage.getItem('trello_token');
+  }
+
+  public getApiKey() {
+    return this.API_KEY;
   }
 
   public isAuthenticated(): boolean {
