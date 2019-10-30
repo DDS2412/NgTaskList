@@ -12,13 +12,14 @@ export class APIService {
 
   public getCards() {
     return this.httpClient.get(
-      `https://api.trello.com/1/boards/ZtxD09G7/cards?fields=all&key=${this.authService.getApiKey()}&token=${this.authService.getUsersToken()}`
+      `https://api.trello.com/1/boards/ZtxD09G7/cards?fields=name,desc,labels&members=true&member_fields=fullName&actions=createCard&key=${this.authService.getApiKey()}&token=${this.authService.getUsersToken()}`
     );
   }
 
   public getBatch() {
+    const urls = encodeURIComponent('/boards/ZtxD09G7/cards?fields=name%2Cdesc%2Clabels&members=true&member_fields=fullName&actions=createCard,/boards/ZtxD09G7/members/');
     return this.httpClient.get(
-      `https://api.trello.com/1/batch/?urls=/boards/ZtxD09G7/cards?fields=all,/boards/ZtxD09G7/members/&key=${this.authService.getApiKey()}&token=${this.authService.getUsersToken()}`
+      `https://api.trello.com/1/batch/?urls=${urls}&key=${this.authService.getApiKey()}&token=${this.authService.getUsersToken()}`
     );
   }
 }
