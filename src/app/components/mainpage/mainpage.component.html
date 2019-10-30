@@ -1,14 +1,53 @@
 <clr-main-container>
   <app-header></app-header>
-  <div *ngFor="let item of cards">
-    <h2>{{ item.name }}</h2>
-    <h3>{{ formatDate(item.actions[0].date) }}</h3>
-    <div *ngFor="let label of item.labels" [style.background-color]="label.color">
-      {{label.color}}
-    </div>
-    <p>{{ item.desc }}</p>
-    <em *ngFor="let member of item.members">{{ member.fullName }} </em
-    ><br />
-    <a href="#">Link</a>
+  <div class="btn-group btn-primary btn-sm btn-pos">
+    <button class="btn" (click)="onAdd()">
+      <clr-icon shape="plus"></clr-icon> Добавить
+    </button>
+    <button class="btn" (click)="onDelete()" *ngIf="selected.length == 1">
+      <clr-icon shape="pencil"></clr-icon> Изменить
+    </button>
+    <button
+      class="btn btn-danger"
+      (click)="onEdit()"
+      *ngIf="selected.length > 0"
+    >
+      <clr-icon shape="close"></clr-icon> Удалить
+    </button>
   </div>
+  <clr-datagrid class="container" [(clrDgSelected)]="selected">
+    <clr-dg-column class="width1">Дата создания</clr-dg-column>
+    <clr-dg-column [clrDgField]="'name'" class="width2">Тема</clr-dg-column>
+    <clr-dg-column [clrDgField]="'desc'" class="width3">Описание</clr-dg-column>
+    <clr-dg-column class="width4">Метки</clr-dg-column>
+    <clr-dg-column class="width5">Ответственный</clr-dg-column>
+
+    <clr-dg-row *clrDgItems="let card of cards" [clrDgItem]="card">
+      <clr-dg-cell class="width1">
+        {{ formatDate(card.actions[0].date) }}
+      </clr-dg-cell>
+      <clr-dg-cell class="width2">
+        {{ card.name }}
+      </clr-dg-cell>
+      <clr-dg-cell class="width3">
+        {{ card.desc }}
+      </clr-dg-cell>
+      <clr-dg-cell class="width4">
+        <span
+          *ngFor="let label of card.labels"
+          [style.background-color]="label.color"
+          class="label label-info"
+        >
+          {{ label.name }}
+        </span>
+      </clr-dg-cell>
+      <clr-dg-cell class="width5">
+        <span *ngFor="let member of card.members; let i = index">
+          {{ member.fullName
+          }}<span *ngIf="i != card.members.length - 1">,</span>
+        </span>
+      </clr-dg-cell>
+    </clr-dg-row>
+    <clr-dg-footer>{{ cards.length }} cards</clr-dg-footer>
+  </clr-datagrid>
 </clr-main-container>

@@ -1,14 +1,15 @@
 import { Component, OnInit } from "@angular/core";
 import { APIService } from "../../services/api.service";
-import { Observable } from 'rxjs';
-import { log } from 'util';
+import { Observable } from "rxjs";
+import { log } from "util";
 
 @Component({
-  selector: 'app-mainpage',
-  templateUrl: './mainpage.component.html',
-  styleUrls: ['./mainpage.component.scss']
+  selector: "app-mainpage",
+  templateUrl: "./mainpage.component.html",
+  styleUrls: ["./mainpage.component.scss"]
 })
 export class MainpageComponent implements OnInit {
+  selected = [];
   cards;
 
   constructor(private apiService: APIService) {}
@@ -20,6 +21,10 @@ export class MainpageComponent implements OnInit {
       this.cards = data;
     });
   }
+
+  onAdd() {}
+  onEdit() {}
+  onDelete() {}
 
   formatDate(str: string) {
     return (
