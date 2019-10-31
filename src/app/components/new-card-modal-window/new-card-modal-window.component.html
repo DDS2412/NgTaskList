@@ -1,2 +1,23 @@
-<p>new-card-modal-window works!</p>
-<button (click)="closeModal()">Close</button>
+<form class="clr-form">
+  <div class="clr-form-control">
+    <label for="title" class="clr-control-label">Тема</label>
+    <div class="clr-control-container">
+      <div class="clr-input-wrapper">
+        <input type="text" id="title" placeholder="Введите тему задачи" class="clr-input" />
+        <clr-icon class="clr-validate-icon" shape="exclamation-circle"></clr-icon>
+      </div>
+    </div>
+    <label for="summary" class="clr-control-label">Описание</label>
+    <div class="clr-control-container">
+      <div class="clr-textarea-wrapper">
+        <textarea id="summary" placeholder="Введите описание задачи" class="clr-textarea"></textarea>
+        <clr-icon class="clr-validate-icon" shape="exclamation-circle"></clr-icon>
+      </div>
+    </div>
+  </div>
+</form>
+
+<div class="clr-button-control">
+  <button class="btn btn-success">Создать</button>
+  <button (click)="closeModal()" class="btn btn-outline">Закрыть</button>
+</div>

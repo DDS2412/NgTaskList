@@ -1,0 +1,22 @@
+.clr-control-container {
+  width: 100%;
+  margin-bottom: 30px;
+
+  .clr-textarea {
+    min-width: 100%;
+  }
+
+  .clr-input {
+    min-width: 100%;
+  }
+}
+
+.clr-button-control {
+  display: flex;
+  justify-content: flex-end;
+
+  .btn {
+    margin-right: 6px;
+    margin-left: 6px;
+  }
+}

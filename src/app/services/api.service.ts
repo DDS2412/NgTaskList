@@ -12,7 +12,7 @@ export class APIService {
 
   public getCards() {
     return this.httpClient.get(
-      `https://api.trello.com/1/boards/ZtxD09G7/cards?fields=name,desc,labels&members=true&member_fields=fullName&actions=createCard&key=${this.authService.getApiKey()}&token=${this.authService.getUsersToken()}`
+      `https://api.trello.com/1/boards/ZtxD09G7/cards?fields=name,desc,labels,due,dueComplete&members=true&member_fields=fullName&actions=createCard&key=${this.authService.getApiKey()}&token=${this.authService.getUsersToken()}`
     );
   }
 
