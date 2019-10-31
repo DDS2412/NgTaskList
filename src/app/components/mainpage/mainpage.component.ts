@@ -1,18 +1,17 @@
-import { Component, OnInit } from "@angular/core";
-import { APIService } from "../../services/api.service";
-import { Observable } from "rxjs";
-import { log } from "util";
+import { Component, OnInit } from '@angular/core';
+import { APIService } from '../../services/api.service';
+import {ModalService} from '../../services/modal.service';
 
 @Component({
-  selector: "app-mainpage",
-  templateUrl: "./mainpage.component.html",
-  styleUrls: ["./mainpage.component.scss"]
+  selector: 'app-mainpage',
+  templateUrl: './mainpage.component.html',
+  styleUrls: ['./mainpage.component.scss']
 })
 export class MainpageComponent implements OnInit {
   selected = [];
   cards;
 
-  constructor(private apiService: APIService) {}
+  constructor(private apiService: APIService, private modalService: ModalService) {}
 
   ngOnInit() {
     this.apiService.getCards().subscribe(data => {
@@ -28,16 +27,20 @@ export class MainpageComponent implements OnInit {
 
   formatDate(str: string) {
     return (
-      new Date(str).toLocaleTimeString("en-US", {
+      new Date(str).toLocaleTimeString('en-US', {
         hour12: false,
-        hour: "2-digit",
-        minute: "2-digit"
+        hour: '2-digit',
+        minute: '2-digit'
       }) +
-      ", " +
-      new Date(str).toLocaleDateString("en-GB", {
-        month: "long",
-        day: "numeric"
+      ', ' +
+      new Date(str).toLocaleDateString('en-GB', {
+        month: 'long',
+        day: 'numeric'
       })
     );
+  }
+
+  openModal(id: string) {
+    this.modalService.open(id);
   }
 }

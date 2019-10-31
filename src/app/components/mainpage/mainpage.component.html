@@ -1,7 +1,7 @@
 <clr-main-container>
   <app-header></app-header>
   <div class="btn-group btn-primary btn-sm btn-pos">
-    <button class="btn" (click)="onAdd()">
+    <button class="btn" (click)="openModal('new-card-modal')">
       <clr-icon shape="plus"></clr-icon> Добавить
     </button>
     <button class="btn" (click)="onDelete()" *ngIf="selected.length == 1">
@@ -50,4 +50,7 @@
     </clr-dg-row>
     <clr-dg-footer>{{ cards.length }} cards</clr-dg-footer>
   </clr-datagrid>
+  <app-modal-window id="new-card-modal">
+    <app-new-card-modal-window [modalWindowName]="'new-card-modal'"></app-new-card-modal-window>
+  </app-modal-window>
 </clr-main-container>
