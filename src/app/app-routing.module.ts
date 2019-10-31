@@ -8,7 +8,7 @@ import {LoginformComponent} from './components/loginform/loginform.component';
 const routes: Routes = [
   {path: '', component: LoginformComponent },
   {path: 'mainpage', component: MainpageComponent, canActivate: [AuthGuard]},
-  { path: '**', canActivate: [AuthGuard], redirectTo: 'mainpage' }
+  { path: '**', canActivate: [AuthGuard], redirectTo: 'mainpage' },
 ];
 
 @NgModule({
