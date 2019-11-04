@@ -17,9 +17,10 @@ import { HeaderComponent } from "./components/header/header.component";
 import { NewCardModalWindowComponent } from "./components/new-card-modal-window/new-card-modal-window.component";
 import { ModalWindowModule } from "./components/modal-window/modal-window.module";
 import { FilteringService } from "./services/filtering.service";
+import { TableComponent } from './components/table/table.component';
 
 @NgModule({
-  declarations: [AppComponent, MainpageComponent, LoginformComponent, HeaderComponent, NewCardModalWindowComponent],
+  declarations: [AppComponent, MainpageComponent, LoginformComponent, HeaderComponent, NewCardModalWindowComponent, TableComponent],
   imports: [
     BrowserModule,
     FormsModule,

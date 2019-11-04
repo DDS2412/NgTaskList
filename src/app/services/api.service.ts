@@ -15,4 +15,8 @@ export class APIService {
       `https://api.trello.com/1/boards/ZtxD09G7/cards?fields=name,desc,labels,due,dueComplete&members=true&member_fields=fullName&actions=createCard&key=${this.authService.getApiKey()}&token=${this.authService.getUsersToken()}`
     );
   }
+
+  getIdUser() {
+    console.log(localStorage.getItem('idMe'));
+  }
 }

@@ -10,6 +10,10 @@ export class AuthService {
     localStorage.setItem('trello_token', token);
   }
 
+  public setUserId(id: string) {
+    return localStorage.setItem('userId', id);
+  }
+
   public breakConnection() {
     localStorage.removeItem('trello_token');
   }
@@ -23,6 +27,6 @@ export class AuthService {
   }
 
   public isAuthenticated(): boolean {
-    return  localStorage.getItem('trello_token') != null;
+    return localStorage.getItem('trello_token') != null;
   }
 }
