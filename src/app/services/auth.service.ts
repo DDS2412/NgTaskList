@@ -23,6 +23,6 @@ export class AuthService {
   }
 
   public isAuthenticated(): boolean {
-    return  localStorage.getItem('trello_token') != null;
+    return localStorage.getItem('trello_token') != null;
   }
 }

@@ -1,7 +1,7 @@
 import { Component, OnInit } from "@angular/core";
+import { ModalService } from "../../services/modal.service";
 import { APIService } from "../../services/api.service";
-import { Observable } from "rxjs";
-import { log } from "util";
+
 
 @Component({
   selector: "app-mainpage",
@@ -10,34 +10,17 @@ import { log } from "util";
 })
 export class MainpageComponent implements OnInit {
   selected = [];
-  cards;
 
-  constructor(private apiService: APIService) {}
+  constructor(private modalService: ModalService, private apiService: APIService) {}
 
   ngOnInit() {
-    this.apiService.getCards().subscribe(data => {
-      console.log(data);
-      console.log(JSON.stringify(data));
-      this.cards = data;
-    });
   }
 
-  onAdd() {}
-  onEdit() {}
-  onDelete() {}
+  receiveSelected($event) {
+    this.selected = $event;
+  }
 
-  formatDate(str: string) {
-    return (
-      new Date(str).toLocaleTimeString("en-US", {
-        hour12: false,
-        hour: "2-digit",
-        minute: "2-digit"
-      }) +
-      ", " +
-      new Date(str).toLocaleDateString("en-GB", {
-        month: "long",
-        day: "numeric"
-      })
-    );
+  openModal(id: string) {
+    this.modalService.open(id);
   }
 }

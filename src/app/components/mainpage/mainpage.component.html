@@ -1,53 +1,66 @@
 <clr-main-container>
   <app-header></app-header>
-  <div class="btn-group btn-primary btn-sm btn-pos">
-    <button class="btn" (click)="onAdd()">
-      <clr-icon shape="plus"></clr-icon> Добавить
-    </button>
-    <button class="btn" (click)="onDelete()" *ngIf="selected.length == 1">
-      <clr-icon shape="pencil"></clr-icon> Изменить
-    </button>
-    <button
-      class="btn btn-danger"
-      (click)="onEdit()"
-      *ngIf="selected.length > 0"
-    >
-      <clr-icon shape="close"></clr-icon> Удалить
-    </button>
-  </div>
-  <clr-datagrid class="container" [(clrDgSelected)]="selected">
-    <clr-dg-column class="width1">Дата создания</clr-dg-column>
-    <clr-dg-column [clrDgField]="'name'" class="width2">Тема</clr-dg-column>
-    <clr-dg-column [clrDgField]="'desc'" class="width3">Описание</clr-dg-column>
-    <clr-dg-column class="width4">Метки</clr-dg-column>
-    <clr-dg-column class="width5">Ответственный</clr-dg-column>
 
-    <clr-dg-row *clrDgItems="let card of cards" [clrDgItem]="card">
-      <clr-dg-cell class="width1">
-        {{ formatDate(card.actions[0].date) }}
-      </clr-dg-cell>
-      <clr-dg-cell class="width2">
-        {{ card.name }}
-      </clr-dg-cell>
-      <clr-dg-cell class="width3">
-        {{ card.desc }}
-      </clr-dg-cell>
-      <clr-dg-cell class="width4">
-        <span
-          *ngFor="let label of card.labels"
-          [style.background-color]="label.color"
-          class="label label-info"
-        >
-          {{ label.name }}
-        </span>
-      </clr-dg-cell>
-      <clr-dg-cell class="width5">
-        <span *ngFor="let member of card.members; let i = index">
-          {{ member.fullName
-          }}<span *ngIf="i != card.members.length - 1">,</span>
-        </span>
-      </clr-dg-cell>
-    </clr-dg-row>
-    <clr-dg-footer>{{ cards.length }} cards</clr-dg-footer>
-  </clr-datagrid>
+  <clr-tabs>
+    <clr-tab>
+      <button clrTabLink id="link1">tab1</button>
+      <clr-tab-content id="content1" *clrIfActive=true>
+        <div class="btn-group btn-primary btn-sm btn-pos">
+          <button class="btn" (click)="openModal('new-card-modal')"><clr-icon shape="plus"></clr-icon> Добавить</button>
+          <button class="btn" (click)="onEdit()" *ngIf="selected.length == 1">
+            <clr-icon shape="pencil"></clr-icon> Изменить
+          </button>
+          <button class="btn btn-danger" (click)="onDelete()" *ngIf="selected.length > 0">
+            <clr-icon shape="close"></clr-icon> Удалить
+          </button>
+        </div>
+        <app-table (selectedEvent)="receiveSelected($event)"></app-table>
+      </clr-tab-content>
+    </clr-tab>
+
+    <clr-tab>
+      <button clrTabLink id="link2">tab2</button>
+      <clr-tab-content id="content2" *clrIfActive>
+        <div class="btn-group btn-primary btn-sm btn-pos">
+          <button class="btn" (click)="openModal('new-card-modal')"><clr-icon shape="plus"></clr-icon> Добавить</button>
+          <button class="btn" (click)="onEdit()" *ngIf="selected.length == 1">
+            <clr-icon shape="pencil"></clr-icon> Изменить
+          </button>
+          <button class="btn btn-danger" (click)="onDelete()" *ngIf="selected.length > 0">
+            <clr-icon shape="close"></clr-icon> Удалить
+          </button>
+        </div>
+        <app-table (selectedEvent)="receiveSelected($event)"></app-table>
+      </clr-tab-content>
+    </clr-tab>
+
+    <clr-tab>
+      <button clrTabLink id="link3">tab3</button>
+      <clr-tab-content id="content3" *clrIfActive>
+        3
+      </clr-tab-content>
+    </clr-tab>
+  </clr-tabs>
+
+  <!-- <clr-tabs>
+    <clr-tab *ngFor="let item of boards">
+      <button clrTabLink id="link1">tab1</button>
+      <clr-tab-content id="content1" *clrIfActive="true">
+        <div class="btn-group btn-primary btn-sm btn-pos">
+          <button class="btn" (click)="openModal('new-card-modal')"><clr-icon shape="plus"></clr-icon> Добавить</button>
+          <button class="btn" (click)="onEdit()" *ngIf="selected.length == 1">
+            <clr-icon shape="pencil"></clr-icon> Изменить
+          </button>
+          <button class="btn btn-danger" (click)="onDelete()" *ngIf="selected.length > 0">
+            <clr-icon shape="close"></clr-icon> Удалить
+          </button>
+        </div>
+        <app-table (selectedEvent)="receiveSelected($event)"></app-table>
+      </clr-tab-content>
+    </clr-tab>
+  </clr-tabs> -->
+
+  <app-modal-window id="new-card-modal">
+    <app-new-card-modal-window [modalWindowName]="'new-card-modal'"></app-new-card-modal-window>
+  </app-modal-window>
 </clr-main-container>

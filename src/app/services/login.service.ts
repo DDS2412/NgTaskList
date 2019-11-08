@@ -1,13 +1,13 @@
-import { Injectable } from '@angular/core';
-import {AuthService} from './auth.service';
+import { Injectable } from "@angular/core";
+import { AuthService } from "./auth.service";
 
 declare const login: any;
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: "root"
 })
-export class LoginService {
 
+export class LoginService {
   constructor(private auth: AuthService) {}
 
   public login() {
