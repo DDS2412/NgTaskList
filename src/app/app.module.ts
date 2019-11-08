@@ -18,6 +18,7 @@ import { NewCardModalWindowComponent } from "./components/new-card-modal-window/
 import { ModalWindowModule } from "./components/modal-window/modal-window.module";
 import { FilteringService } from "./services/filtering.service";
 import { TableComponent } from './components/table/table.component';
+import { UserInfoResolver } from './services/userInfo-resolver';
 
 @NgModule({
   declarations: [AppComponent, MainpageComponent, LoginformComponent, HeaderComponent, NewCardModalWindowComponent, TableComponent],
@@ -30,7 +31,7 @@ import { TableComponent } from './components/table/table.component';
     BrowserAnimationsModule,
     ModalWindowModule
   ],
-  providers: [AuthService, AuthGuardService, LoginService, FilteringService],
+  providers: [AuthService, AuthGuardService, LoginService, FilteringService, UserInfoResolver],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

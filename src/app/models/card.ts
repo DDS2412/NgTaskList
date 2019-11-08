@@ -20,16 +20,22 @@ export interface Action {
 }
 
 export interface Data {
-  card:  Ard;
+  card:  CardClass;
   list:  List;
-  board: Ard;
+  board: Board;
 }
 
-export interface Ard {
+export interface Board {
   id:        string;
   name:      string;
   shortLink: string;
-  idShort?:  number;
+}
+
+export interface CardClass {
+  id:        string;
+  name:      string;
+  idShort:   number;
+  shortLink: string;
 }
 
 export interface List {
@@ -43,8 +49,8 @@ export interface Limits {
 export interface MemberCreator {
   id:                 string;
   activityBlocked:    boolean;
-  avatarHash:         null;
-  avatarUrl:          null;
+  avatarHash:         null | string;
+  avatarUrl:          null | string;
   fullName:           string;
   idMemberReferrer:   null;
   initials:           string;

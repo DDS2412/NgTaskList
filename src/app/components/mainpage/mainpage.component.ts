@@ -1,5 +1,7 @@
 import { Component, OnInit } from "@angular/core";
 import { ModalService } from "../../services/modal.service";
+import { APIService } from "../../services/api.service";
+
 
 @Component({
   selector: "app-mainpage",
@@ -9,9 +11,10 @@ import { ModalService } from "../../services/modal.service";
 export class MainpageComponent implements OnInit {
   selected = [];
 
-  constructor(private modalService: ModalService) {}
+  constructor(private modalService: ModalService, private apiService: APIService) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+  }
 
   receiveSelected($event) {
     this.selected = $event;

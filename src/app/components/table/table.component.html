@@ -18,7 +18,13 @@
   </clr-dg-column>
 
   <clr-dg-row *clrDgItems="let card of cards" [clrDgItem]="card">
-    <clr-dg-cell>{{ formatDate(card.actions[0].date) }}</clr-dg-cell>
+    <clr-dg-cell>
+      <ng-container [ngSwitch]="card.actions.length === 0">
+        <span *ngSwitchCase="true">Не известно</span>
+        <span *ngSwitchCase="false">{{ formatDate(card.actions[0].date) }}</span>
+        <span *ngSwitchDefault>Не известно</span>
+      </ng-container>
+    </clr-dg-cell>
     <clr-dg-cell [style.flex-grow]="1.5">{{ card.name }}</clr-dg-cell>
     <clr-dg-cell [style.flex-grow]="2">
       <span *ngFor="let label of card.labels" [style.background-color]="label.color" class="label label-info">
@@ -26,16 +32,22 @@
       </span>
     </clr-dg-cell>
     <clr-dg-cell>
-      <ng-container [ngSwitch]="card.due == null">
+      <ng-container [ngSwitch]="card.due === null">
         <span *ngSwitchCase="true">Не назначено</span>
         <span *ngSwitchCase="false">{{ formatDate(card.due) }}</span>
-        <span *ngSwitchDefault>Не известно</span>
+        <span *ngSwitchDefault>Не назначено</span>
       </ng-container>
     </clr-dg-cell>
     <clr-dg-cell>
-      <span *ngFor="let member of card.members; let i = index"
-        >{{ member.fullName }}<span *ngIf="i != card.members.length - 1">, </span>
-      </span>
+      <ng-container [ngSwitch]="card.members.length === 0">
+        <span *ngSwitchCase="true">Не назначены</span>
+        <span *ngSwitchCase="false"
+          ><span *ngFor="let member of card.members; let i = index"
+            >{{ member.fullName }}<span *ngIf="i != card.members.length - 1">, </span>
+          </span>
+        </span>
+        <span *ngSwitchDefault>Не назначены</span>
+      </ng-container>
     </clr-dg-cell>
 
     <clr-dg-row-detail *clrIfExpanded>
