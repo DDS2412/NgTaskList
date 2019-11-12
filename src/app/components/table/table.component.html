@@ -1,23 +1,25 @@
-<clr-datagrid [(clrDgSelected)]="selected" (clrDgSelectedChange)="sendSelected($event)">
-  <clr-dg-column [style.flex-grow]="1"
-    >Созданно
+<clr-datagrid [(clrDgSelected)]="selected" (clrDgSelectedChange)="sendSelected($event)" [clrDgLoading]="loading">
+  <clr-dg-column [style.flex-grow]="1">
+    Созданно
     <clr-dg-string-filter [clrDgStringFilter]="creationDateFilter"></clr-dg-string-filter>
   </clr-dg-column>
   <clr-dg-column [clrDgField]="'name'" [style.flex-grow]="1.5">Название</clr-dg-column>
-  <clr-dg-column [style.flex-grow]="2"
-    >Метки
+  <clr-dg-column [style.flex-grow]="2">
+    Метки
     <clr-dg-string-filter [clrDgStringFilter]="labelFilter"></clr-dg-string-filter>
   </clr-dg-column>
-  <clr-dg-column [style.flex-grow]="1"
-    >Срок
+  <clr-dg-column [style.flex-grow]="1">
+    Срок
     <clr-dg-string-filter [clrDgStringFilter]="deadlineFilter"></clr-dg-string-filter>
   </clr-dg-column>
-  <clr-dg-column [style.flex-grow]="1"
-    >Исполнители
+  <clr-dg-column [style.flex-grow]="1">
+    Исполнители
     <clr-dg-string-filter [clrDgStringFilter]="assignedPersonFilter"></clr-dg-string-filter>
   </clr-dg-column>
 
-  <clr-dg-row *clrDgItems="let card of cards" [clrDgItem]="card">
+  <clr-dg-placeholder>We couldn't find any data!</clr-dg-placeholder>
+
+  <clr-dg-row *clrDgItems="let card of boardList[index]" [clrDgItem]="card">
     <clr-dg-cell>
       <ng-container [ngSwitch]="card.actions.length === 0">
         <span *ngSwitchCase="true">Не известно</span>
@@ -25,10 +27,16 @@
         <span *ngSwitchDefault>Не известно</span>
       </ng-container>
     </clr-dg-cell>
-    <clr-dg-cell [style.flex-grow]="1.5">{{ card.name }}</clr-dg-cell>
+    <clr-dg-cell [style.flex-grow]="1.5">
+      <span>
+        {{ card.name }}
+      </span>
+    </clr-dg-cell>
     <clr-dg-cell [style.flex-grow]="2">
       <span *ngFor="let label of card.labels" [style.background-color]="label.color" class="label label-info">
-        {{ label.name }}
+        <span>
+          {{ label.name }}
+        </span>
       </span>
     </clr-dg-cell>
     <clr-dg-cell>
@@ -42,8 +50,8 @@
       <ng-container [ngSwitch]="card.members.length === 0">
         <span *ngSwitchCase="true">Не назначены</span>
         <span *ngSwitchCase="false"
-          ><span *ngFor="let member of card.members; let i = index"
-            >{{ member.fullName }}<span *ngIf="i != card.members.length - 1">, </span>
+          ><span *ngFor="let member of card.members; let i = index">
+            <span> {{ member.fullName }}<span *ngIf="i != card.members.length - 1">, </span> </span>
           </span>
         </span>
         <span *ngSwitchDefault>Не назначены</span>
@@ -51,7 +59,12 @@
     </clr-dg-cell>
 
     <clr-dg-row-detail *clrIfExpanded>
-      {{ card.desc }}
+      <span>
+        {{ card.desc }}<br />
+        <ng-container *ngFor="let img of card.attachments">
+          <img src="{{ img.url }}" alt="" style="width: 112px; height: 80px"/>
+        </ng-container>
+      </span>
     </clr-dg-row-detail>
   </clr-dg-row>
 

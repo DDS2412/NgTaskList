@@ -5,6 +5,7 @@ export interface Card {
   labels:      Label[];
   due:         Date | null;
   dueComplete: boolean;
+  attachments: Attachment[];
   members:     Member[];
   actions:     Action[];
 }
@@ -49,14 +50,19 @@ export interface Limits {
 export interface MemberCreator {
   id:                 string;
   activityBlocked:    boolean;
-  avatarHash:         null | string;
-  avatarUrl:          null | string;
+  avatarHash:         null;
+  avatarUrl:          null;
   fullName:           string;
   idMemberReferrer:   null;
   initials:           string;
   nonPublic:          Limits;
   nonPublicAvailable: boolean;
   username:           string;
+}
+
+export interface Attachment {
+  id:  string;
+  url: string;
 }
 
 export interface Label {

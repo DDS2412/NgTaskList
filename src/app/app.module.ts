@@ -17,11 +17,18 @@ import { HeaderComponent } from "./components/header/header.component";
 import { NewCardModalWindowComponent } from "./components/new-card-modal-window/new-card-modal-window.component";
 import { ModalWindowModule } from "./components/modal-window/modal-window.module";
 import { FilteringService } from "./services/filtering.service";
-import { TableComponent } from './components/table/table.component';
-import { UserInfoResolver } from './services/userInfo-resolver';
+import { TableComponent } from "./components/table/table.component";
+import { UserInfoResolver } from "./services/userInfo-resolver";
 
 @NgModule({
-  declarations: [AppComponent, MainpageComponent, LoginformComponent, HeaderComponent, NewCardModalWindowComponent, TableComponent],
+  declarations: [
+    AppComponent,
+    MainpageComponent,
+    LoginformComponent,
+    HeaderComponent,
+    NewCardModalWindowComponent,
+    TableComponent
+  ],
   imports: [
     BrowserModule,
     FormsModule,

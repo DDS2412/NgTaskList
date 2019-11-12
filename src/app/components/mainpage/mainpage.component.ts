@@ -1,6 +1,8 @@
 import { Component, OnInit } from "@angular/core";
 import { ModalService } from "../../services/modal.service";
 import { APIService } from "../../services/api.service";
+import { ActivatedRoute } from '@angular/router';
+import { UserInfo } from 'src/app/models/userInfo';
 
 
 @Component({
@@ -10,10 +12,24 @@ import { APIService } from "../../services/api.service";
 })
 export class MainpageComponent implements OnInit {
   selected = [];
+  userInfo: UserInfo;
+  boardInfo: Array<{}> = new Array<{}>();
 
-  constructor(private modalService: ModalService, private apiService: APIService) {}
+  constructor(private modalService: ModalService, private apiService: APIService, private activatedRoute: ActivatedRoute) {}
 
   ngOnInit() {
+    this.activatedRoute.data.subscribe((data: { userInfo: UserInfo }) => {
+      this.userInfo = data.userInfo;
+    });
+    this.addBoardInfo();
+  }
+
+  addBoardInfo() {
+    this.userInfo.idBoards.forEach(element => {
+      this.apiService.getBoardsInfo(element).subscribe((data) => {
+        this.boardInfo.push(data);
+      });
+    });
   }
 
   receiveSelected($event) {
