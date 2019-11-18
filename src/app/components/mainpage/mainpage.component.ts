@@ -1,9 +1,11 @@
-import { Component, OnInit } from "@angular/core";
-import { ModalService } from "../../services/modal.service";
-import { APIService } from "../../services/api.service";
-import { ActivatedRoute } from '@angular/router';
-import { UserInfo } from 'src/app/models/userInfo';
-
+import { Component, OnInit, Input, Output, ViewChild, EventEmitter } from "@angular/core";
+import { UserInfo } from "src/app/models/userInfo";
+import { Card } from "src/app/models/card";
+import { TableComponent } from "../table/table.component";
+import { BoardInfo } from "src/app/models/boardInfo";
+import { Observable } from 'rxjs';
+import { InitializerService } from 'src/app/services/initializer.service';
+import { ListInfo } from 'src/app/models/listInfo';
 
 @Component({
   selector: "app-mainpage",
@@ -11,32 +13,33 @@ import { UserInfo } from 'src/app/models/userInfo';
   styleUrls: ["./mainpage.component.scss"]
 })
 export class MainpageComponent implements OnInit {
-  selected = [];
-  userInfo: UserInfo;
-  boardInfo: Array<{}> = new Array<{}>();
+  selected: Array<Card> = new Array<Card>();
+  userInfo: Observable<UserInfo>;
+  boardInfo: Observable<BoardInfo[]>;
+  isModalVisible = false;
+  @ViewChild(TableComponent, { static: false }) table: TableComponent;
 
-  constructor(private modalService: ModalService, private apiService: APIService, private activatedRoute: ActivatedRoute) {}
+  constructor(
+    private initializerService: InitializerService,
+  ) {}
 
   ngOnInit() {
-    this.activatedRoute.data.subscribe((data: { userInfo: UserInfo }) => {
-      this.userInfo = data.userInfo;
-    });
-    this.addBoardInfo();
+    this.userInfo = this.initializerService.userInfo;
+    this.boardInfo = this.initializerService.boardInfo;
+
+    this.initializerService.loadAllBoardsInfo();
   }
 
-  addBoardInfo() {
-    this.userInfo.idBoards.forEach(element => {
-      this.apiService.getBoardsInfo(element).subscribe((data) => {
-        this.boardInfo.push(data);
-      });
-    });
+  receiveVisible($event) {
+    this.isModalVisible = $event;
   }
 
   receiveSelected($event) {
     this.selected = $event;
   }
 
-  openModal(id: string) {
-    this.modalService.open(id);
+  clearSelection() {
+    this.table.selected = [];
+    this.table.sendSelected();
   }
 }

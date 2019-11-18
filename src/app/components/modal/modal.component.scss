@@ -4,6 +4,7 @@
 
   .clr-textarea {
     min-width: 100%;
+    min-height: 150px;
   }
 
   .clr-input {
@@ -19,4 +20,8 @@
     margin-right: 6px;
     margin-left: 6px;
   }
+}
+
+select {
+  width: 140px;
 }

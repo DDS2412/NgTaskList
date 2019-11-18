@@ -1,31 +1,83 @@
 import { Injectable } from "@angular/core";
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { AuthService } from "./auth.service";
-import { Card } from "src/app/models/card";
+import { Card, Label } from "src/app/models/card";
 import { Observable } from "rxjs";
 import { UserInfo } from "../models/userInfo";
+import { BoardInfo } from "../models/boardInfo";
+import { ListInfo } from "../models/listInfo";
 
 @Injectable({
   providedIn: "root"
 })
 export class APIService {
-  constructor(private httpClient: HttpClient, private authService: AuthService) {}
+  private baseUrl = "https://api.trello.com/1/";
 
-  public getCards(boardId: string): Observable<Card[]> {
-    return this.httpClient.get<Card[]>(
-      `https://api.trello.com/1/boards/${boardId}/cards?fields=name,desc,labels,due,dueComplete&attachments=true&attachment_fields=url&members=true&member_fields=fullName&actions=createCard&token=${this.authService.getUsersToken()}&key=${this.authService.getApiKey()}`
-    );
-  }
+  constructor(
+    private httpClient: HttpClient,
+    private authService: AuthService
+  ) {}
 
   public getUserInfo(): Observable<UserInfo> {
     return this.httpClient.get<UserInfo>(
-      `https://api.trello.com/1/tokens/${this.authService.getUsersToken()}/member?fields=id,idBoards,fullName&token=${this.authService.getUsersToken()}&key=${this.authService.getApiKey()}`
+      `${
+        this.baseUrl
+      }tokens/${this.authService.getUsersToken()}/member?fields=id,idBoards,fullName&key=${this.authService.getApiKey()}&token=${this.authService.getUsersToken()}`
+    );
+  }
+  public getBoardsInfoByMemberId(memberId: string): Observable<BoardInfo[]> {
+    return this.httpClient.get<BoardInfo[]>(
+      `${
+        this.baseUrl
+      }members/${memberId}/boards?fields=id,name&key=${this.authService.getApiKey()}&token=${this.authService.getUsersToken()}`
     );
   }
 
-  public getBoardsInfo(boardId: string): Observable<Card[]> {
+  public getListsOfBoard(boardId: string): Observable<ListInfo[]> {
+    return this.httpClient.get<ListInfo[]>(
+      `https://api.trello.com/1/boards/${boardId}/lists?fields=id,name,idBoard&key=${this.authService.getApiKey()}&token=${this.authService.getUsersToken()}`
+    );
+  }
+
+  // public getBoardsInfo(boardId: string): Observable<BoardInfo> {
+  //   return this.httpClient.get<BoardInfo>(
+  //     `${
+  //       this.baseUrl
+  //     }boards/${boardId}?fields=name&token=${this.authService.getUsersToken()}&key=${this.authService.getApiKey()}`
+  //   );
+  // }
+
+  public getCards(boardId: string): Observable<Card[]> {
     return this.httpClient.get<Card[]>(
-      `https://api.trello.com/1/boards/${boardId}?fields=name&token=${this.authService.getUsersToken()}&key=${this.authService.getApiKey()}`
+      `${
+        this.baseUrl
+      }boards/${boardId}/cards?fields=name,desc,labels,due,dueComplete,idList,idBoard&attachments=true&attachment_fields=url&members=true&member_fields=fullName&actions=createCard&key=${this.authService.getApiKey()}&token=${this.authService.getUsersToken()}`
+    );
+  }
+
+  public postLabel(label: Label, idBoard: string): Observable<Label> {
+    return this.httpClient.post<Label>(
+      `${
+        this.baseUrl
+      }/labels?name=${label.name}&color=green&idBoard=${idBoard}&key=${this.authService.getApiKey()}&token=${this.authService.getUsersToken()}`,
+      JSON.stringify(label)
+    );
+  }
+
+  public postCard(card: Card, fileSource?): Observable<Card> {
+    let members: string[] = [];
+    let labels: string[] = [];
+    card.members.forEach(element => {
+      members.push(element.id);
+    });
+    card.labels.forEach(element => {
+      labels.push(element.id);
+    });
+    return this.httpClient.post<Card>(
+      `${this.baseUrl}/cards?name=${card.name}&desc=${card.desc}&due=${
+        card.due
+      }&idList=${card.idList}&idMembers=${members}&idLabels=${labels}&token=${this.authService.getUsersToken()}&key=${this.authService.getApiKey()}`,
+      JSON.stringify(card)
     );
   }
 }

@@ -14,11 +14,11 @@ import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { MainpageComponent } from "./components/mainpage/mainpage.component";
 import { LoginformComponent } from "./components/loginform/loginform.component";
 import { HeaderComponent } from "./components/header/header.component";
-import { NewCardModalWindowComponent } from "./components/new-card-modal-window/new-card-modal-window.component";
-import { ModalWindowModule } from "./components/modal-window/modal-window.module";
 import { FilteringService } from "./services/filtering.service";
 import { TableComponent } from "./components/table/table.component";
 import { UserInfoResolver } from "./services/userInfo-resolver";
+import { ModalComponent } from './components/modal/modal.component';
+import { InitializerService } from './services/initializer.service';
 
 @NgModule({
   declarations: [
@@ -26,8 +26,8 @@ import { UserInfoResolver } from "./services/userInfo-resolver";
     MainpageComponent,
     LoginformComponent,
     HeaderComponent,
-    NewCardModalWindowComponent,
-    TableComponent
+    TableComponent,
+    ModalComponent
   ],
   imports: [
     BrowserModule,
@@ -36,9 +36,8 @@ import { UserInfoResolver } from "./services/userInfo-resolver";
     AppRoutingModule,
     ClarityModule,
     BrowserAnimationsModule,
-    ModalWindowModule
   ],
-  providers: [AuthService, AuthGuardService, LoginService, FilteringService, UserInfoResolver],
+  providers: [AuthService, AuthGuardService, LoginService, FilteringService, UserInfoResolver, InitializerService],
   bootstrap: [AppComponent]
 })
 export class AppModule {}

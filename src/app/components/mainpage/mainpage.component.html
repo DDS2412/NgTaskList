@@ -1,25 +1,50 @@
 <clr-main-container>
   <app-header></app-header>
 
-  <clr-tabs>
-    <clr-tab *ngFor="let item of boardInfo; let i = index">
+  <clr-tabs *ngIf="userInfo | async; else spinner">
+    <clr-tab *ngFor="let item of boardInfo | async; let i = index">
       <button clrTabLink id="link1">{{ item.name }}</button>
       <clr-tab-content id="content1" *clrIfActive>
+        <!-- *clrIfActive="i === 0 ? true : false" -->
         <div class="btn-group btn-primary btn-sm btn-pos">
-          <button class="btn" (click)="openModal('new-card-modal')"><clr-icon shape="plus"></clr-icon> Добавить</button>
-          <button class="btn" (click)="onEdit()" *ngIf="selected.length == 1">
+          <button class="btn" (click)="isModalVisible = true; clearSelection()">
+            <clr-icon shape="plus"></clr-icon> Добавить
+          </button>
+          <button
+            class="btn"
+            (click)="isModalVisible = true"
+            *ngIf="selected.length === 1"
+          >
             <clr-icon shape="pencil"></clr-icon> Изменить
           </button>
-          <button class="btn btn-danger" (click)="onDelete()" *ngIf="selected.length > 0">
+          <button
+            class="btn btn-danger"
+            (click)="onDelete()"
+            *ngIf="selected.length > 0"
+          >
             <clr-icon shape="close"></clr-icon> Удалить
           </button>
         </div>
-        <app-table (selectedEvent)="receiveSelected($event)" [index]="i"></app-table>
+        <app-table
+          (selectedEvent)="receiveSelected($event)"
+          [index]="i"
+        ></app-table>
+        <app-modal
+          [visible]="isModalVisible"
+          (sendVisible)="receiveVisible($event)"
+          [index]="i"
+          [selected]="selected"
+        ></app-modal>
       </clr-tab-content>
     </clr-tab>
   </clr-tabs>
 
-  <app-modal-window id="new-card-modal">
-    <app-new-card-modal-window [modalWindowName]="'new-card-modal'"></app-new-card-modal-window>
-  </app-modal-window>
+  <ng-template #spinner>
+    <span class="spinner spinner-inline">
+      Loading...
+    </span>
+    <span>
+      Loading...
+    </span>
+  </ng-template>
 </clr-main-container>
