@@ -1,6 +1,7 @@
 import { Injectable } from "@angular/core";
 import { Card } from "../models/card";
 import { ClrDatagridStringFilterInterface } from "@clr/angular";
+import { ListInfo } from '../models/listInfo';
 
 @Injectable({
   providedIn: "root"
@@ -25,7 +26,7 @@ export class FilteringService {
 class LabelFilter implements ClrDatagridStringFilterInterface<Card> {
   accepts(card: Card, search: string): boolean {
     return card.labels.some((label, index) => {
-      return label.name == search || label.name.toLowerCase().includes(search);
+      return label.name === search || label.name.toLowerCase().includes(search);
     });
   }
 }
@@ -33,7 +34,7 @@ class LabelFilter implements ClrDatagridStringFilterInterface<Card> {
 class AssignedPersonFilter implements ClrDatagridStringFilterInterface<Card> {
   accepts(card: Card, search: string): boolean {
     return card.members.some((member, index) => {
-      return member.fullName == search || member.fullName.toLowerCase().includes(search);
+      return member.fullName === search || member.fullName.toLowerCase().includes(search);
     });
   }
 }
@@ -49,7 +50,7 @@ class CreationDateFilter implements ClrDatagridStringFilterInterface<Card> {
           minute: "2-digit",
           month: "long",
           day: "numeric"
-        }) == search ||
+        }) === search ||
         new Date(action.date)
           .toLocaleTimeString("en-US", {
             hour12: false,
@@ -79,7 +80,7 @@ class DeadlineFilter implements ClrDatagridStringFilterInterface<Card> {
         .toLowerCase()
         .includes(search);
     } else {
-      return "Не назначено" == search || "Не назначено".toLowerCase().includes(search);
+      return "Не назначено" === search || "Не назначено".toLowerCase().includes(search);
     }
   }
 }

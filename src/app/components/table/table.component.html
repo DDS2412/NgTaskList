@@ -10,23 +10,26 @@
       [clrDgStringFilter]="creationDateFilter"
     ></clr-dg-string-filter>
   </clr-dg-column>
-  <clr-dg-column [clrDgField]="'name'" [style.flex-grow]="1.5">
+  <clr-dg-column [clrDgField]="'name'" [style.flex-grow]="2">
     Название
   </clr-dg-column>
-  <clr-dg-column [style.flex-grow]="2">
-    Метки
+  <clr-dg-column [style.flex-grow]="1">
+    Статус
+  </clr-dg-column>
+  <clr-dg-column [style.flex-grow]="1">
+    Приоритет
     <clr-dg-string-filter
       [clrDgStringFilter]="labelFilter"
     ></clr-dg-string-filter>
   </clr-dg-column>
   <clr-dg-column [style.flex-grow]="1">
-    Срок
+    Срок выполнения
     <clr-dg-string-filter
       [clrDgStringFilter]="deadlineFilter"
     ></clr-dg-string-filter>
   </clr-dg-column>
   <clr-dg-column [style.flex-grow]="1">
-    Исполнители
+    Исполнитель
     <clr-dg-string-filter
       [clrDgStringFilter]="assignedPersonFilter"
     ></clr-dg-string-filter>
@@ -44,20 +47,19 @@
         <span *ngSwitchDefault>Не известно</span>
       </ng-container>
     </clr-dg-cell>
-    <clr-dg-cell [style.flex-grow]="1.5">
+    <clr-dg-cell [style.flex-grow]="2">
       <span>
         {{ card.name }}
       </span>
     </clr-dg-cell>
-    <clr-dg-cell [style.flex-grow]="2">
-      <span
-        *ngFor="let label of card.labels"
-        [style.background-color]="label.color"
-        class="label label-info"
-      >
-        <span>
-          {{ label.name }}
-        </span>
+    <clr-dg-cell>
+      <span>
+        {{ findListName(card) }}
+      </span>
+    </clr-dg-cell>
+    <clr-dg-cell>
+      <span *ngFor="let label of card.labels">
+        {{ slicePriority(label.name) }}
       </span>
     </clr-dg-cell>
     <clr-dg-cell>
@@ -106,10 +108,10 @@
 </clr-datagrid>
 
 <ng-template #spinner>
-    <span class="spinner spinner-inline">
-      Loading...
-    </span>
-    <span>
-      Loading...
-    </span>
-  </ng-template>
+  <span class="spinner spinner-inline">
+    Loading...
+  </span>
+  <span>
+    Loading...
+  </span>
+</ng-template>

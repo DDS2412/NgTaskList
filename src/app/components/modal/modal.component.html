@@ -3,70 +3,81 @@
   [clrModalSize]="'xl'"
   [clrModalClosable]="false"
 >
-  <h3 class="modal-title">{{ selected[0] ? "Изменить карточку" : "Создать карточку"}}</h3>
+  <h3 class="modal-title">
+    {{ selected[0] ? "Изменить карточку" : "Создать карточку" }}
+  </h3>
   <div class="modal-body">
-    <form class="clr-form" (ngSubmit)="onSubmit()">
-      <div class="clr-form-control">
-        <label for="title" class="clr-control-label">Тема</label>
-        <div class="clr-control-container">
-          <div class="clr-input-wrapper">
-            <input
-              type="text"
-              id="title"
-              placeholder="Введите тему задачи"
-              class="clr-input"
-              value="{{selected[0] ? selected[0].name : ''}}"
-              [(ngModel)]="cardToPost.name"
-              name="name"
-            />
-            <clr-icon
-              class="clr-validate-icon"
-              shape="exclamation-circle"
-            ></clr-icon>
-          </div>
-        </div>
-        <label for="summary" class="clr-control-label">Описание</label>
-        <div class="clr-control-container">
-          <div class="clr-textarea-wrapper">
-            <textarea
-              id="summary"
-              placeholder="Введите описание задачи"
-              class="clr-textarea"
-              value="{{ selected[0] ? selected[0].desc : ''}}"
-              [(ngModel)]="cardToPost.desc"
-              name="desc"
-            >
-            </textarea>
-            <clr-icon
-              class="clr-validate-icon"
-              shape="exclamation-circle"
-            ></clr-icon>
-          </div>
-          <!-- <div>
-            <input type="file" name="attachments" (change)="onFileSelected($event)"/>
-          </div> -->
-          <clr-select-container>
-            <label>Состояние</label>
-            <select clrSelect name="idList" [(ngModel)]="cardToPost.idList">
-              <option value=""></option>
-              <option *ngFor="let status of listInfo" value="{{ status.id }}">{{ status.name }}</option>
-            </select>
-          </clr-select-container>
-          <clr-select-container>
-            <label>Приоритет</label>
-            <select clrSelect name="label" [(ngModel)]="selectedLabels">
-              <option value=""></option>
-              <option *ngFor="let label of labelsParsed; let i = index" value="{{ label[1] }}">{{ label[0] }}</option>
-            </select>
-          </clr-select-container>
-        </div>
-      </div>
+    <form
+      clrForm
+      *ngIf="formGroup"
+      [formGroup]="formGroup"
+      (ngSubmit)="createCard()"
+      id="cardForm"
+    >
+      <clr-input-container>
+        <label>Тема задачи</label>
+        <input
+          clrInput
+          type="text"
+          formControlName="name"
+          placeholder="Enter name of your task"
+          required
+        />
+        <clr-control-error>Error</clr-control-error>
+      </clr-input-container>
+      <clr-textarea-container>
+        <label>Описание задачи</label>
+        <textarea
+          clrTextarea
+          formControlName="desc"
+          placeholder="Enter description of your task"
+        ></textarea>
+      </clr-textarea-container>
+      <clr-select-container>
+        <label>Статус задачи</label>
+        <select clrSelect formControlName="idList" required>
+          <option value="null"></option>
+          <option *ngFor="let list of listInfo" value="{{ list.id }}">{{
+            list.name
+          }}</option>
+        </select>
+        <clr-control-error>Обязательное поле</clr-control-error>
+      </clr-select-container>
+      <clr-select-container>
+        <label>Приоритет задачи</label>
+        <select
+          clrSelect
+          formControlName="labels"
+          required
+        >
+          <option value="null"></option>
+          <option *ngFor="let label of labelList" value="{{ label.id }}">{{
+            label.name
+          }}</option>
+        </select>
+        <clr-control-error>Обязательное поле</clr-control-error>
+      </clr-select-container>
+      <clr-date-container>
+        <label>Срок выполнения</label>
+        <input type="date" clrDate formControlName="due" />
+      </clr-date-container>
+      <clr-select-container>
+        <label>Исполнитель</label>
+        <select clrSelect formControlName="members">
+          <option value="null"></option>
+          <option *ngFor="let item of membersArray" value="{{ item.id }}">{{
+            item.fullName
+          }}</option>
+        </select>
+      </clr-select-container>
     </form>
   </div>
 
   <div class="modal-footer">
     <div class="clr-button-control">
-      <button type="submit" class="btn btn-success">{{ selected[0] ? "Изменить" : "Создать"}}</button>
+      <button type="submit" class="btn btn-success" form="cardForm">
+        {{ selected[0] ? "Изменить" : "Создать" }}
+      </button>
       <button (click)="close()" class="btn btn-outline">Закрыть</button>
     </div>
   </div>

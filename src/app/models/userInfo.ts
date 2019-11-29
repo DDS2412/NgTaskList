@@ -1,5 +1,5 @@
 export interface UserInfo {
-  id:       string;
-  idBoards: string[];
-  fullName: string;
+  id?:       string;
+  idBoards?: string[];
+  fullName?: string;
 }

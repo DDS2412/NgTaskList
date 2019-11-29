@@ -5,7 +5,6 @@ import { TableComponent } from "../table/table.component";
 import { BoardInfo } from "src/app/models/boardInfo";
 import { Observable } from 'rxjs';
 import { InitializerService } from 'src/app/services/initializer.service';
-import { ListInfo } from 'src/app/models/listInfo';
 
 @Component({
   selector: "app-mainpage",

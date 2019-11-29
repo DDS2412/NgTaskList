@@ -1,6 +1,6 @@
 import { BrowserModule } from "@angular/platform-browser";
 import { NgModule } from "@angular/core";
-import { FormsModule } from "@angular/forms";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 
 import { AppRoutingModule } from "./app-routing.module";
 import { AppComponent } from "./app.component";
@@ -19,6 +19,7 @@ import { TableComponent } from "./components/table/table.component";
 import { UserInfoResolver } from "./services/userInfo-resolver";
 import { ModalComponent } from './components/modal/modal.component';
 import { InitializerService } from './services/initializer.service';
+import { MatSelectModule } from "@angular/material";
 
 @NgModule({
   declarations: [
@@ -36,6 +37,8 @@ import { InitializerService } from './services/initializer.service';
     AppRoutingModule,
     ClarityModule,
     BrowserAnimationsModule,
+    ReactiveFormsModule,
+    MatSelectModule,
   ],
   providers: [AuthService, AuthGuardService, LoginService, FilteringService, UserInfoResolver, InitializerService],
   bootstrap: [AppComponent]

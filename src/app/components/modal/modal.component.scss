@@ -1,14 +1,30 @@
-.clr-control-container {
+clr-modal {
+  z-index: 600;
+}
+
+clr-input-container,
+clr-textarea-container {
   width: 100%;
   margin-bottom: 30px;
 
-  .clr-textarea {
+  input {
+    min-width: 100%;
+  }
+
+  textarea {
     min-width: 100%;
     min-height: 150px;
   }
+}
 
-  .clr-input {
-    min-width: 100%;
+clr-date-container {
+  input {
+    width: 160px;
+  }
+}
+clr-select-container {
+  select {
+    width: 192px;
   }
 }
 
@@ -20,8 +36,4 @@
     margin-right: 6px;
     margin-left: 6px;
   }
-}
-
-select {
-  width: 140px;
 }
