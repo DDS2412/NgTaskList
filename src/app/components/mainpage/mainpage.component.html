@@ -3,9 +3,10 @@
 
   <clr-tabs *ngIf="userInfo | async; else spinner">
     <clr-tab *ngFor="let item of boardInfo | async; let i = index">
-      <button clrTabLink id="link1">{{ item.name }}</button>
+      <button clrTabLink id="link1" (click)="setIndex(i)">
+        {{ item.name }}
+      </button>
       <clr-tab-content id="content1" *clrIfActive>
-        <!-- *clrIfActive="i === 0 ? true : false" -->
         <div class="btn-group btn-primary btn-sm btn-pos">
           <button class="btn" (click)="isModalVisible = true; clearSelection()">
             <clr-icon shape="plus"></clr-icon> Добавить
@@ -19,7 +20,7 @@
           </button>
           <button
             class="btn btn-danger"
-            (click)="onDelete()"
+            (click)="deleteSelection()"
             *ngIf="selected.length > 0"
           >
             <clr-icon shape="close"></clr-icon> Удалить

@@ -2,9 +2,8 @@
   *ngIf="board"
   [(clrDgSelected)]="selected"
   (clrDgSelectedChange)="sendSelected($event)"
-  [clrDgLoading]="loading"
 >
-  <clr-dg-column [style.flex-grow]="1">
+  <clr-dg-column [clrDgSortOrder]="descSort" [style.flex-grow]="1">
     Созданно
     <clr-dg-string-filter
       [clrDgStringFilter]="creationDateFilter"
@@ -24,6 +23,27 @@
   </clr-dg-column>
   <clr-dg-column [style.flex-grow]="1">
     Срок выполнения
+    <clr-tooltip>
+      <clr-icon clrTooltipTrigger shape="info-circle" size="24"></clr-icon>
+      <clr-tooltip-content clrPosition="right" clrSize="md" *clrIfOpen>
+        <div style="margin-bottom: 10px;">
+          <clr-icon
+            shape="flame"
+            size="17"
+            class="is-solid is-error"
+          ></clr-icon>
+          <span> Срок прошел</span>
+        </div>
+        <div>
+          <clr-icon
+            shape="flame"
+            size="17"
+            class="is-solid is-warning"
+          ></clr-icon>
+          <span> Срок подходит к концу</span>
+        </div>
+      </clr-tooltip-content>
+    </clr-tooltip>
     <clr-dg-string-filter
       [clrDgStringFilter]="deadlineFilter"
     ></clr-dg-string-filter>
@@ -41,9 +61,9 @@
     <clr-dg-cell>
       <ng-container [ngSwitch]="card.actions.length === 0">
         <span *ngSwitchCase="true">Не известно</span>
-        <span *ngSwitchCase="false">{{
-          card.actions[0].date | date: "MMMM dd, HH:mm"
-        }}</span>
+        <span *ngSwitchCase="false">
+          {{ card.actions[0].date | date: "MMMM dd, HH:mm" }}
+        </span>
         <span *ngSwitchDefault>Не известно</span>
       </ng-container>
     </clr-dg-cell>
@@ -67,6 +87,16 @@
         <span *ngSwitchCase="true">Не назначено</span>
         <span *ngSwitchCase="false">
           {{ card.due | date: "MMMM dd, HH:mm" }}
+          <clr-icon
+            shape="flame"
+            class="is-solid is-error"
+            *ngIf="checkDueLate(card.due)"
+          ></clr-icon>
+          <clr-icon
+            shape="flame"
+            class="is-solid is-warning"
+            *ngIf="checkDueCloseToLate(card.due)"
+          ></clr-icon>
         </span>
         <span *ngSwitchDefault>Не назначено</span>
       </ng-container>
@@ -98,20 +128,11 @@
 
   <clr-dg-footer>
     <clr-dg-pagination #pagination [clrDgPageSize]="10">
-      <clr-dg-page-size [clrPageSizeOptions]="[10, 20, 50, 100]"
-        >Users per page</clr-dg-page-size
-      >
+      <clr-dg-page-size [clrPageSizeOptions]="[10, 15, 20, 50]">
+        Users per page
+      </clr-dg-page-size>
       {{ pagination.firstItem + 1 }} - {{ pagination.lastItem + 1 }} of
       {{ pagination.totalItems }} cards
     </clr-dg-pagination>
   </clr-dg-footer>
 </clr-datagrid>
-
-<ng-template #spinner>
-  <span class="spinner spinner-inline">
-    Loading...
-  </span>
-  <span>
-    Loading...
-  </span>
-</ng-template>

@@ -1,10 +1,11 @@
-import { Component, OnInit, Input, Output, ViewChild, EventEmitter } from "@angular/core";
+import { Component, OnInit, ViewChild } from "@angular/core";
 import { UserInfo } from "src/app/models/userInfo";
 import { Card } from "src/app/models/card";
 import { TableComponent } from "../table/table.component";
 import { BoardInfo } from "src/app/models/boardInfo";
-import { Observable } from 'rxjs';
-import { InitializerService } from 'src/app/services/initializer.service';
+import { Observable } from "rxjs";
+import { InitializerService } from "src/app/services/initializer.service";
+import { APIService } from "src/app/services/api.service";
 
 @Component({
   selector: "app-mainpage",
@@ -17,9 +18,11 @@ export class MainpageComponent implements OnInit {
   boardInfo: Observable<BoardInfo[]>;
   isModalVisible = false;
   @ViewChild(TableComponent, { static: false }) table: TableComponent;
+  index: Number;
 
   constructor(
     private initializerService: InitializerService,
+    private apiService: APIService
   ) {}
 
   ngOnInit() {
@@ -40,5 +43,19 @@ export class MainpageComponent implements OnInit {
   clearSelection() {
     this.table.selected = [];
     this.table.sendSelected();
+  }
+
+  setIndex(i: Number) {
+    this.index = i;
+  }
+
+  deleteSelection() {
+    this.selected.forEach(element => {
+      let cardId: string;
+      this.apiService.deleteCard(element).subscribe(data => {
+        cardId = data.id;
+        this.initializerService.deleteCard(cardId, this.index);
+      });
+    });
   }
 }

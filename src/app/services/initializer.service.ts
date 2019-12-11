@@ -108,4 +108,11 @@ export class InitializerService {
       }
     });
   }
+
+  deleteCard(id: string, index) {
+    const foundIndex = this.cardListStore.cardList[index].findIndex(
+      c => c.id === id
+    );
+    this.cardListStore.cardList[index].splice(foundIndex, 1);
+  }
 }

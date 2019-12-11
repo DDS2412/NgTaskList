@@ -1,5 +1,5 @@
 import { Injectable } from "@angular/core";
-import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { HttpClient } from "@angular/common/http";
 import { AuthService } from "./auth.service";
 import { Card, Label, Member } from "src/app/models/card";
 import { Observable } from "rxjs";
@@ -66,15 +66,6 @@ export class APIService {
     );
   }
 
-  public postLabel(label: Label, idBoard: string): Observable<Label> {
-    return this.httpClient.post<Label>(
-      `${this.baseUrl}/labels?name=${
-        label.name
-      }&color=green&idBoard=${idBoard}&key=${this.authService.getApiKey()}&token=${this.authService.getUsersToken()}`,
-      JSON.stringify(label)
-    );
-  }
-
   public postCard(card: Card, fileSource?): Observable<Card> {
     let members: string[] = [];
     let labels: string[] = [];
@@ -89,12 +80,12 @@ export class APIService {
         card.due
       }&idList=${
         card.idList
-      }&idMembers=${members}&idLabels=${labels}&token=${this.authService.getUsersToken()}&key=${this.authService.getApiKey()}`,
+      }&idMembers=${members}&idLabels=${labels}&key=${this.authService.getApiKey()}&token=${this.authService.getUsersToken()}`,
       JSON.stringify(card)
     );
   }
 
-  public putCard(card: Card, fileSource?): Observable<Card> {
+  public updateCard(card: Card, fileSource?): Observable<Card> {
     let members: string[] = [];
     let labels: string[] = [];
     card.members.forEach(element => {
@@ -104,11 +95,20 @@ export class APIService {
       labels.push(element.id);
     });
     return this.httpClient.put<Card>(
-      `${this.baseUrl}/cards/${card.id}?name=${card.name}&desc=${card.desc}&due=${
-        card.due
-      }&idList=${
+      `${this.baseUrl}/cards/${card.id}?name=${card.name}&desc=${
+        card.desc
+      }&due=${card.due}&idList=${
         card.idList
-      }&idMembers=${members}&idLabels=${labels}&token=${this.authService.getUsersToken()}&key=${this.authService.getApiKey()}`,
+      }&idMembers=${members}&idLabels=${labels}&key=${this.authService.getApiKey()}&token=${this.authService.getUsersToken()}`,
+      JSON.stringify(card)
+    );
+  }
+
+  public deleteCard(card: Card): Observable<Card> {
+    return this.httpClient.put<Card>(
+      `${this.baseUrl}/cards/${
+        card.id
+      }?closed=true&key=${this.authService.getApiKey()}&token=${this.authService.getUsersToken()}`,
       JSON.stringify(card)
     );
   }

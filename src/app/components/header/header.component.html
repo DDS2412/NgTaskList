@@ -1,8 +1,35 @@
-<clr-header>
+<clr-header class="header-5">
   <div class="branding">
-    <a href="#" class="nav-link logo" [routerLink]="['/mainpage']" routerLinkActive="active">
+    <a
+      href="#"
+      class="nav-link logo"
+      [routerLink]="['/mainpage']"
+      routerLinkActive="active"
+    >
       <clr-icon shape="code"></clr-icon>
       <span class="title">Task list</span>
+    </a>
+  </div>
+  <div class="header-nav">
+    <a
+      href="#"
+      class="nav-link"
+      [routerLink]="['/mainpage']"
+      routerLinkActive="active"
+    >
+      <span class="nav-text">
+        Dashboard
+      </span>
+    </a>
+    <a
+      href="#"
+      class="nav-link"
+      [routerLink]="['/analytics']"
+      routerLinkActive="active"
+    >
+      <span class="nav-text">
+        Interactive Analytics
+      </span>
     </a>
   </div>
   <div class="header-actions log-out" [clr-nav-level]="1">

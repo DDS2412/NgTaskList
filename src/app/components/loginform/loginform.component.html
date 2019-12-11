@@ -1,5 +1,12 @@
-<clr-main-container>
-  <div class="row-vertical-center">
-    <button class="btn btn-success-outline btn-login" (click)="login()">LOG IN</button>
-  </div>
-</clr-main-container>
+<div class="login-wrapper">
+  <form class="login">
+    <section class="title title-pos">
+      <h3 class="welcome">Добро пожаловать</h3>
+      <!-- Менеджер задач на базе Trello -->
+      <h5>Для логина используйте учётную запись Trello</h5>
+    </section>
+    <button class="btn btn-success" (click)="login()">
+      LOG IN
+    </button>
+  </form>
+</div>

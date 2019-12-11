@@ -20,6 +20,7 @@ import { UserInfoResolver } from "./services/userInfo-resolver";
 import { ModalComponent } from './components/modal/modal.component';
 import { InitializerService } from './services/initializer.service';
 import { MatSelectModule } from "@angular/material";
+import { AnalyticsComponent } from './components/analytics/analytics.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import { MatSelectModule } from "@angular/material";
     LoginformComponent,
     HeaderComponent,
     TableComponent,
-    ModalComponent
+    ModalComponent,
+    AnalyticsComponent
   ],
   imports: [
     BrowserModule,

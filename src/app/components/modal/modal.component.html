@@ -1,6 +1,6 @@
 <clr-modal
   [(clrModalOpen)]="visible"
-  [clrModalSize]="'xl'"
+  [clrModalSize]="'lg'"
   [clrModalClosable]="false"
 >
   <h3 class="modal-title">
@@ -23,7 +23,11 @@
           placeholder="Enter name of your task"
           required
         />
-        <clr-control-error>Error</clr-control-error>
+        <clr-icon
+          class="clr-validate-icon"
+          shape="exclamation-circle"
+        ></clr-icon>
+        <clr-control-error>Обязательное поле</clr-control-error>
       </clr-input-container>
       <clr-textarea-container>
         <label>Описание задачи</label>
@@ -36,25 +40,27 @@
       <clr-select-container>
         <label>Статус задачи</label>
         <select clrSelect formControlName="idList" required>
-          <option value="null"></option>
           <option *ngFor="let list of listInfo" value="{{ list.id }}">{{
             list.name
           }}</option>
         </select>
+        <clr-icon
+          class="clr-validate-icon"
+          shape="exclamation-circle"
+        ></clr-icon>
         <clr-control-error>Обязательное поле</clr-control-error>
       </clr-select-container>
       <clr-select-container>
         <label>Приоритет задачи</label>
-        <select
-          clrSelect
-          formControlName="labels"
-          required
-        >
-          <option value="null"></option>
+        <select clrSelect formControlName="labels" required>
           <option *ngFor="let label of labelList" value="{{ label.id }}">{{
             label.name
           }}</option>
         </select>
+        <clr-icon
+          class="clr-validate-icon"
+          shape="exclamation-circle"
+        ></clr-icon>
         <clr-control-error>Обязательное поле</clr-control-error>
       </clr-select-container>
       <clr-date-container>
@@ -63,19 +69,28 @@
       </clr-date-container>
       <clr-select-container>
         <label>Исполнитель</label>
-        <select clrSelect formControlName="members">
-          <option value="null"></option>
+        <select clrSelect formControlName="members" required>
           <option *ngFor="let item of membersArray" value="{{ item.id }}">{{
             item.fullName
           }}</option>
         </select>
+        <clr-icon
+          class="clr-validate-icon"
+          shape="exclamation-circle"
+        ></clr-icon>
+        <clr-control-error>Обязательное поле</clr-control-error>
       </clr-select-container>
     </form>
   </div>
 
   <div class="modal-footer">
     <div class="clr-button-control">
-      <button type="submit" class="btn btn-success" form="cardForm">
+      <button
+        type="submit"
+        class="btn btn-success"
+        form="cardForm"
+        [disabled]="!formGroup.valid"
+      >
         {{ selected[0] ? "Изменить" : "Создать" }}
       </button>
       <button (click)="close()" class="btn btn-outline">Закрыть</button>

@@ -4,6 +4,7 @@ import { FilteringService } from "src/app/services/filtering.service";
 import { Observable } from "rxjs";
 import { InitializerService } from "src/app/services/initializer.service";
 import { ListInfo } from "src/app/models/listInfo";
+import { ClrDatagridSortOrder } from '@clr/angular';
 
 @Component({
   selector: "app-table",
@@ -11,15 +12,16 @@ import { ListInfo } from "src/app/models/listInfo";
   styleUrls: ["./table.component.scss"]
 })
 export class TableComponent implements OnInit {
-  private labelFilter = this.filterService.createLabelFilter();
-  private assignedPersonFilter = this.filterService.createAssignedPersonFilter();
-  private creationDateFilter = this.filterService.createCreationDateFilter();
-  private deadlineFilter = this.filterService.createDeadlineFilter();
+  labelFilter = this.filterService.createLabelFilter();
+  assignedPersonFilter = this.filterService.createAssignedPersonFilter();
+  creationDateFilter = this.filterService.createCreationDateFilter();
+  deadlineFilter = this.filterService.createDeadlineFilter();
   selected: Array<Card> = new Array<Card>();
   boardList: Observable<[Card[]]>;
   board: Card[];
   listsInfo: Observable<[ListInfo[]]>;
   listInfo: ListInfo[];
+  descSort = ClrDatagridSortOrder.DESC;
 
   @Input() index;
 
@@ -41,14 +43,39 @@ export class TableComponent implements OnInit {
     });
   }
 
+  checkDueLate(due: string): boolean {
+    let d1 = new Date(due);
+    let d2 = new Date();
+    if (d2 > d1) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
+  checkDueCloseToLate(due: string): boolean {
+    let d1 = new Date(due);
+    let d2 = new Date();
+    let d3 = new Date();
+    d3.setMonth(d1.getMonth());
+    d3.setDate(d1.getDate() - 3);
+
+    if (d2 < d1 && d2 > d3) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   slicePriority(str: string): string {
     let res = str.split(": ");
     return res.length > 1 ? res[1] : res[0];
   }
 
   findListName(card: Card): string {
-    return this.listInfo.find(x => (x.id === card.idList)).name;
+    return this.listInfo.find(x => x.id === card.idList).name;
   }
+
   sendSelected() {
     this.selectedEvent.emit(this.selected);
   }

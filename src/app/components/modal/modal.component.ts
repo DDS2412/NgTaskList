@@ -5,14 +5,7 @@ import { InitializerService } from "src/app/services/initializer.service";
 import { ListInfo } from "src/app/models/listInfo";
 import { Observable } from "rxjs";
 import LabelJson from "../../../assets/labels.json";
-import {
-  FormBuilder,
-  FormGroup,
-  Validators,
-  FormControl,
-  FormArray
-} from "@angular/forms";
-import { BoardInfo } from "src/app/models/boardInfo.js";
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 
 @Component({
   selector: "app-modal",
@@ -20,7 +13,7 @@ import { BoardInfo } from "src/app/models/boardInfo.js";
   styleUrls: ["./modal.component.scss"]
 })
 export class ModalComponent implements OnInit {
-  labelsParsed: Array<string[]> = new Array<string[]>();
+  // labelsParsed: Array<string[]> = new Array<string[]>();
   listsInfo: Observable<[ListInfo[]]>;
   listInfo: ListInfo[];
   labelsList: Observable<[Label[]]>;
@@ -63,11 +56,9 @@ export class ModalComponent implements OnInit {
       .subscribe(data => {
         this.membersArray = data;
       });
-    this.parseLabels();
+    // this.parseLabels();
+    this.createEmptyFormGroup();
   }
-
-  onSubmit() {}
-  onFileSelected() {}
 
   ngOnChanges() {
     if (this.selected.length > 0) {
@@ -75,29 +66,41 @@ export class ModalComponent implements OnInit {
     } else if (this.visible === true) {
       this.createEmptyFormGroup();
     }
-    // console.log(this.labelList);
-
-    // this.setLabels();
-    // console.log(this.cardToPost);
-    // console.log(this.selectedLabels);
-    // console.log(this.labelsParsed);
   }
+
   private createFormGroup(card: Card) {
     let due = new Date(card.due);
-    this.formGroup = this.formBuilder.group({
-      name: [card.name, [Validators.required]],
-      desc: [card.desc],
-      due: [
-        due.toLocaleDateString("en-US", {
-          month: "2-digit",
-          day: "2-digit",
-          year: "numeric"
-        })
-      ],
-      idList: [card.idList, [Validators.required]],
-      labels: [card.labels[0].id],
-      members: [card.members[0].id]
-    });
+    if (card.labels.length === 0) {
+      this.formGroup = this.formBuilder.group({
+        name: [card.name, [Validators.required]],
+        desc: [card.desc],
+        due: [
+          due.toLocaleDateString("en-US", {
+            month: "2-digit",
+            day: "2-digit",
+            year: "numeric"
+          })
+        ],
+        idList: [card.idList, [Validators.required]],
+        labels: [null, [Validators.required]],
+        members: [null, [Validators.required]]
+      });
+    } else {
+      this.formGroup = this.formBuilder.group({
+        name: [card.name, [Validators.required]],
+        desc: [card.desc],
+        due: [
+          due.toLocaleDateString("en-US", {
+            month: "2-digit",
+            day: "2-digit",
+            year: "numeric"
+          })
+        ],
+        idList: [card.idList, [Validators.required]],
+        labels: [card.labels[0].id, [Validators.required]],
+        members: [card.members[0].id]
+      });
+    }
   }
 
   private createEmptyFormGroup() {
@@ -106,26 +109,26 @@ export class ModalComponent implements OnInit {
       desc: [null],
       due: [null],
       idList: [null, [Validators.required]],
-      labels: [null],
+      labels: [null, [Validators.required]],
       members: [null]
     });
   }
 
-  private resetForm() {
+  resetForm() {
     this.formGroup.reset();
   }
 
-  parseLabels() {
-    LabelJson.forEach(element => {
-      this.labelsParsed.push([
-        element.name
-          .split(": ")
-          .splice(1)
-          .toString(),
-        element.name
-      ]);
-    });
-  }
+  // parseLabels() {
+  //   LabelJson.forEach(element => {
+  //     this.labelsParsed.push([
+  //       element.name
+  //         .split(": ")
+  //         .splice(1)
+  //         .toString(),
+  //       element.name
+  //     ]);
+  //   });
+  // }
 
   createCard() {
     if (this.selected.length > 0) {
@@ -133,7 +136,7 @@ export class ModalComponent implements OnInit {
       this.cardToPost.id = this.selected[0].id;
       this.cardToPost.labels = [{ id: this.formGroup.get("labels").value }];
       this.cardToPost.members = [{ id: this.formGroup.get("members").value }];
-      return this.apiService.putCard(this.cardToPost).subscribe(data => {
+      this.apiService.updateCard(this.cardToPost).subscribe(data => {
         this.initializerService.updateCard(data, this.index);
       });
     } else {
@@ -147,10 +150,11 @@ export class ModalComponent implements OnInit {
           ).fullName
         }
       ];
-      return this.apiService.postCard(this.cardToPost).subscribe(data => {
+      this.apiService.postCard(this.cardToPost).subscribe(data => {
         this.initializerService.addCard(data, this.cardToPost, this.index);
       });
     }
+    this.close();
   }
 
   close() {
