@@ -1,5 +1,32 @@
 <clr-main-container>
   <app-header></app-header>
-
-
+  <div style="display: flex; justify-content: space-between; width: 400px">
+    <!-- <clr-select-container>
+      <label>I've got some options</label>
+      <select clrSelect name="options" [(ngModel)]="selectedMonth">
+        <option *ngFor="let item of dateArr" value="{{ item[0] }}">
+          {{ item[1] }}
+        </option>
+      </select>
+    </clr-select-container>
+    <clr-select-container>
+      <label>I've got some options</label>
+      <select clrSelect name="options" [(ngModel)]="selectedYear">
+        <option *ngFor="let item of yearArr" value="{{ item }}">
+          {{ item }}
+        </option>
+      </select>
+    </clr-select-container> -->
+    <button
+      type="button"
+      class="btn btn-icon btn-success"
+      aria-label="done"
+      (click)="createChart()"
+    >
+      <clr-icon shape="check"></clr-icon>
+    </button>
+  </div>
+  <div class="canvas-container">
+    <canvas id="canvas" style="width: 1000px;">{{ myChart }}</canvas>
+  </div>
 </clr-main-container>

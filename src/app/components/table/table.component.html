@@ -34,13 +34,21 @@
           ></clr-icon>
           <span> Срок прошел</span>
         </div>
-        <div>
+        <div style="margin-bottom: 10px;">
           <clr-icon
             shape="flame"
             size="17"
             class="is-solid is-warning"
           ></clr-icon>
           <span> Срок подходит к концу</span>
+        </div>
+        <div>
+          <clr-icon
+            shape="check"
+            size="17"
+            class="is-solid is-success"
+          ></clr-icon>
+          <span> Выполнено</span>
         </div>
       </clr-tooltip-content>
     </clr-tooltip>
@@ -90,12 +98,17 @@
           <clr-icon
             shape="flame"
             class="is-solid is-error"
-            *ngIf="checkDueLate(card.due)"
+            *ngIf="checkDueLate(card)"
           ></clr-icon>
           <clr-icon
             shape="flame"
             class="is-solid is-warning"
-            *ngIf="checkDueCloseToLate(card.due)"
+            *ngIf="checkDueCloseToLate(card)"
+          ></clr-icon>
+          <clr-icon
+            shape="check"
+            class="is-solid is-success"
+            *ngIf="checkDone(card)"
           ></clr-icon>
         </span>
         <span *ngSwitchDefault>Не назначено</span>

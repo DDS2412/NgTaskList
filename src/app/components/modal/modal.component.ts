@@ -13,7 +13,6 @@ import { FormBuilder, FormGroup, Validators } from "@angular/forms";
   styleUrls: ["./modal.component.scss"]
 })
 export class ModalComponent implements OnInit {
-  // labelsParsed: Array<string[]> = new Array<string[]>();
   listsInfo: Observable<[ListInfo[]]>;
   listInfo: ListInfo[];
   labelsList: Observable<[Label[]]>;
@@ -39,6 +38,7 @@ export class ModalComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    this.createEmptyFormGroup();
     this.listsInfo = this.initializerService.listsInfo;
     this.listsInfo.subscribe(data => {
       this.listInfo = data[this.index];
@@ -56,8 +56,6 @@ export class ModalComponent implements OnInit {
       .subscribe(data => {
         this.membersArray = data;
       });
-    // this.parseLabels();
-    this.createEmptyFormGroup();
   }
 
   ngOnChanges() {
@@ -117,18 +115,6 @@ export class ModalComponent implements OnInit {
   resetForm() {
     this.formGroup.reset();
   }
-
-  // parseLabels() {
-  //   LabelJson.forEach(element => {
-  //     this.labelsParsed.push([
-  //       element.name
-  //         .split(": ")
-  //         .splice(1)
-  //         .toString(),
-  //       element.name
-  //     ]);
-  //   });
-  // }
 
   createCard() {
     if (this.selected.length > 0) {

@@ -41,25 +41,33 @@ export class TableComponent implements OnInit {
     this.listsInfo.subscribe(data => {
       this.listInfo = data[this.index];
     });
+    console.log(this.board)
   }
 
-  checkDueLate(due: string): boolean {
-    let d1 = new Date(due);
+  checkDone(card: Card): boolean {
+    if(card.dueComplete === true) {
+      return true
+    } else {
+      return false
+    }
+  }
+
+  checkDueLate(card: Card): boolean {
+    let d1 = new Date(card.due);
     let d2 = new Date();
-    if (d2 > d1) {
-      return true;
+    if(card.dueComplete !== true && d2 > d1) {
+      return true
     } else {
       return false;
     }
   }
 
-  checkDueCloseToLate(due: string): boolean {
-    let d1 = new Date(due);
+  checkDueCloseToLate(card: Card): boolean {
+    let d1 = new Date(card.due);
     let d2 = new Date();
     let d3 = new Date();
     d3.setMonth(d1.getMonth());
     d3.setDate(d1.getDate() - 3);
-
     if (d2 < d1 && d2 > d3) {
       return true;
     } else {

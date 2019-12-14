@@ -28,8 +28,6 @@ export class MainpageComponent implements OnInit {
   ngOnInit() {
     this.userInfo = this.initializerService.userInfo;
     this.boardInfo = this.initializerService.boardInfo;
-
-    this.initializerService.loadAllBoardsInfo();
   }
 
   receiveVisible($event) {
