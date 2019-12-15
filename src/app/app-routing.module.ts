@@ -18,6 +18,8 @@ const routes: Routes = [
   {
     path: "analytics",
     component: AnalyticsComponent,
+    canActivate: [AuthGuard],
+    resolve: { userInfo: UserInfoResolver }
   },
   { path: "**", canActivate: [AuthGuard], redirectTo: "mainpage" }
 ];

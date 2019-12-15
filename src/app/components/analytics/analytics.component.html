@@ -1,6 +1,6 @@
 <clr-main-container>
   <app-header></app-header>
-  <div style="display: flex; justify-content: space-between; width: 400px">
+  <div class="select-container">
     <!-- <clr-select-container>
       <label>I've got some options</label>
       <select clrSelect name="options" [(ngModel)]="selectedMonth">
@@ -8,15 +8,15 @@
           {{ item[1] }}
         </option>
       </select>
-    </clr-select-container>
+    </clr-select-container> -->
     <clr-select-container>
-      <label>I've got some options</label>
-      <select clrSelect name="options" [(ngModel)]="selectedYear">
-        <option *ngFor="let item of yearArr" value="{{ item }}">
-          {{ item }}
+      <label>Выберите проект</label>
+      <select clrSelect name="options" [(ngModel)]="selectedBoard">
+        <option *ngFor="let item of boardInfo | async" value="{{ item.id }}">
+          {{ item.name }}
         </option>
       </select>
-    </clr-select-container> -->
+    </clr-select-container>
     <button
       type="button"
       class="btn btn-icon btn-success"

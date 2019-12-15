@@ -41,7 +41,6 @@ export class TableComponent implements OnInit {
     this.listsInfo.subscribe(data => {
       this.listInfo = data[this.index];
     });
-    console.log(this.board)
   }
 
   checkDone(card: Card): boolean {

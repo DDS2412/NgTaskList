@@ -4,6 +4,7 @@ import { Observable } from "rxjs";
 import { Card, Member } from "src/app/models/card";
 import { InitializerService } from "src/app/services/initializer.service";
 import { APIService } from "src/app/services/api.service";
+import { BoardInfo } from "src/app/models/boardInfo";
 
 @Component({
   selector: "app-analytics",
@@ -12,7 +13,8 @@ import { APIService } from "src/app/services/api.service";
 })
 export class AnalyticsComponent implements OnInit {
   index = 0;
-  boardList: Observable<[Card[]]>;
+  boardInfo: Observable<BoardInfo[]>;
+  boardList: Observable<[Card[]]> = new Observable<[Card[]]>();
   board: Card[];
   membersArray: Array<Member> = new Array<Member>();
   dateArr = [
@@ -33,6 +35,7 @@ export class AnalyticsComponent implements OnInit {
   selectedMonth: number;
   selectedYear: number;
   myChart;
+  selectedBoard: string;
 
   constructor(
     private apiService: APIService,
@@ -40,22 +43,17 @@ export class AnalyticsComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    this.boardInfo = this.initializerService.boardInfo;
     this.boardList = this.initializerService.cardList;
     this.boardList.subscribe(data => {
       this.board = data[this.index];
-      this.apiService
-        .getBoardsMembers(data[this.index][0].idBoard)
-        .subscribe(data => {
-          this.membersArray = data;
-        });
+      this.apiService.getBoardsMembers(data[this.index][0].idBoard).subscribe(data => {
+        this.membersArray = data;
+      });
     });
   }
 
   createChart() {
-    let xAxesLabels = this.getDaysInMonth1(
-      this.selectedMonth,
-      this.selectedYear
-    );
     let members = [];
     let countOfDone = [];
     let a = [];
@@ -128,6 +126,4 @@ export class AnalyticsComponent implements OnInit {
     }
     return arrOfDates;
   }
-
-  countData() {}
 }
