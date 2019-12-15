@@ -6,8 +6,7 @@
       <button clrTabLink id="link1" (click)="setIndex(i)">
         {{ item.name }}
       </button>
-      <clr-tab-content id="content1"  *clrIfActive>
-        <!-- *clrIfActive="i === 0 ? true : false" -->
+      <clr-tab-content *ngIf="active" id="content1">
         <div class="btn-group btn-primary btn-sm btn-pos">
           <button class="btn" (click)="isModalVisible = true; clearSelection()">
             <clr-icon shape="plus"></clr-icon> Добавить

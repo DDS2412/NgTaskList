@@ -18,7 +18,8 @@ export class MainpageComponent implements OnInit {
   boardInfo: Observable<BoardInfo[]>;
   isModalVisible = false;
   @ViewChild(TableComponent, { static: false }) table: TableComponent;
-  index: Number;
+  index: number;
+  active
 
   constructor(
     private initializerService: InitializerService,
@@ -28,6 +29,10 @@ export class MainpageComponent implements OnInit {
   ngOnInit() {
     this.userInfo = this.initializerService.userInfo;
     this.boardInfo = this.initializerService.boardInfo;
+  }
+
+  setActiveTab(index: number): boolean {
+    return index === 0 ? true : false;
   }
 
   receiveVisible($event) {
@@ -43,8 +48,9 @@ export class MainpageComponent implements OnInit {
     this.table.sendSelected();
   }
 
-  setIndex(i: Number) {
+  setIndex(i: number) {
     this.index = i;
+    this.active = true;
   }
 
   deleteSelection() {
