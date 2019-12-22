@@ -12,7 +12,5 @@ export class AppComponent {
     private initializerService: InitializerService,
   ) {}
 
-  ngOnInit() {
-    this.initializerService.loadAllBoardsInfo();
-  }
+  ngOnInit() {}
 }

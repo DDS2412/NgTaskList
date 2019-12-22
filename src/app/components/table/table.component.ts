@@ -4,7 +4,21 @@ import { FilteringService } from "src/app/services/filtering.service";
 import { Observable } from "rxjs";
 import { InitializerService } from "src/app/services/initializer.service";
 import { ListInfo } from "src/app/models/listInfo";
-import { ClrDatagridSortOrder } from '@clr/angular';
+import { ClrDatagridSortOrder, ClrDatagridComparatorInterface } from '@clr/angular';
+
+class TimeComparator implements ClrDatagridComparatorInterface<Card> {
+  compare(a: Card, b: Card) {
+    let first = new Date(a.actions[0].date).getMilliseconds();
+    let second = new Date(b.actions[0].date).getMilliseconds();
+      if (Date.parse(a.actions[0].date) === Date.parse(b.actions[0].date)) {
+        return 0;
+      } else if (Date.parse(a.actions[0].date) > Date.parse(b.actions[0].date)) {
+        return 1;
+      } else {
+        return -1
+      }
+  }
+}
 
 @Component({
   selector: "app-table",
@@ -16,12 +30,13 @@ export class TableComponent implements OnInit {
   assignedPersonFilter = this.filterService.createAssignedPersonFilter();
   creationDateFilter = this.filterService.createCreationDateFilter();
   deadlineFilter = this.filterService.createDeadlineFilter();
+  timeComparator = new TimeComparator();
   selected: Array<Card> = new Array<Card>();
   boardList: Observable<[Card[]]>;
   board: Card[];
   listsInfo: Observable<[ListInfo[]]>;
   listInfo: ListInfo[];
-  descSort = ClrDatagridSortOrder.DESC;
+  sortOrder: any;
 
   @Input() index;
 
@@ -41,6 +56,7 @@ export class TableComponent implements OnInit {
     this.listsInfo.subscribe(data => {
       this.listInfo = data[this.index];
     });
+    this.sortOrder = ClrDatagridSortOrder.ASC;
   }
 
   checkDone(card: Card): boolean {

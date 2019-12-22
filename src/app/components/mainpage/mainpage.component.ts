@@ -19,7 +19,7 @@ export class MainpageComponent implements OnInit {
   isModalVisible = false;
   @ViewChild(TableComponent, { static: false }) table: TableComponent;
   index: number;
-  active
+  active: boolean;
 
   constructor(
     private initializerService: InitializerService,

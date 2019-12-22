@@ -1,6 +1,6 @@
 <clr-main-container>
   <app-header></app-header>
-
+  <app-alert></app-alert>
   <clr-tabs *ngIf="userInfo | async; else spinner">
     <clr-tab *ngFor="let item of boardInfo | async; let i = index">
       <button clrTabLink id="link1" (click)="setIndex(i)">

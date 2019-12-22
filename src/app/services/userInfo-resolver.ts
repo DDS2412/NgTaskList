@@ -6,11 +6,10 @@ import { UserInfo } from "../models/userInfo";
 import { InitializerService } from './initializer.service';
 
 @Injectable()
-export class UserInfoResolver implements Resolve<Observable<UserInfo>> {
+export class UserInfoResolver implements Resolve<void> {
   constructor(private apiService: APIService, private initializerService: InitializerService) {}
 
-  resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<UserInfo> {
+  resolve(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): void {
     this.initializerService.loadAllBoardsInfo();
-    return this.apiService.getUserInfo();
   }
 }

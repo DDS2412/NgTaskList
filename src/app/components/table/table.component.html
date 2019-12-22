@@ -3,7 +3,7 @@
   [(clrDgSelected)]="selected"
   (clrDgSelectedChange)="sendSelected($event)"
 >
-  <clr-dg-column [clrDgSortOrder]="descSort" [style.flex-grow]="1">
+  <clr-dg-column [clrDgSortBy]="timeComparator" [clrDgSortOrder]="sortOrder" [style.flex-grow]="1">
     Созданно
     <clr-dg-string-filter
       [clrDgStringFilter]="creationDateFilter"

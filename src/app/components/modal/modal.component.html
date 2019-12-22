@@ -15,7 +15,7 @@
       id="cardForm"
     >
       <clr-input-container>
-        <label>Тема задачи</label>
+        <label>Тема <span style="color: red;">*</span></label>
         <input
           clrInput
           type="text"
@@ -30,7 +30,7 @@
         <clr-control-error>Обязательное поле</clr-control-error>
       </clr-input-container>
       <clr-textarea-container>
-        <label>Описание задачи</label>
+        <label>Описание</label>
         <textarea
           clrTextarea
           formControlName="desc"
@@ -38,7 +38,7 @@
         ></textarea>
       </clr-textarea-container>
       <clr-select-container>
-        <label>Статус задачи</label>
+        <label>Статус <span style="color: red;">*</span></label>
         <select clrSelect formControlName="idList" required>
           <option *ngFor="let list of listInfo" value="{{ list.id }}">{{
             list.name
@@ -51,7 +51,7 @@
         <clr-control-error>Обязательное поле</clr-control-error>
       </clr-select-container>
       <clr-select-container>
-        <label>Приоритет задачи</label>
+        <label>Приоритет <span style="color: red;">*</span></label>
         <select clrSelect formControlName="labels" required>
           <option *ngFor="let label of labelList" value="{{ label.id }}">{{
             label.name
@@ -68,7 +68,7 @@
         <input type="date" clrDate formControlName="due" />
       </clr-date-container>
       <clr-select-container>
-        <label>Исполнитель</label>
+        <label>Исполнитель <span style="color: red;">*</span></label>
         <select clrSelect formControlName="members" required>
           <option *ngFor="let item of membersArray" value="{{ item.id }}">{{
             item.fullName
